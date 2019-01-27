@@ -1,4 +1,4 @@
-package com.example.examplewebservice.Services;
+package com.example.examplewebservice.data.api;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

@@ -1,4 +1,4 @@
-package com.example.examplewebservice.Model;
+package com.example.examplewebservice.data.api.model;
 
 public class LoginBody {
     private String email;

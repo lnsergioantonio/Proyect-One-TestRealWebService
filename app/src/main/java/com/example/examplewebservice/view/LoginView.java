@@ -1,6 +1,6 @@
-package com.example.examplewebservice.View;
+package com.example.examplewebservice.view;
 
-public interface ILoginView {
+public interface LoginView {
     void showProgressDialog();
     void hideProgressDialog();
     void onLoginResult(String message);

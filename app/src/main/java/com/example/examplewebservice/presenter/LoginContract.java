@@ -1,6 +1,6 @@
-package com.example.examplewebservice.Presenter;
+package com.example.examplewebservice.presenter;
 
-public interface MainContract {
+public interface LoginContract {
 
     interface Presenter{
         void onLogin(String email, String password);
@@ -11,7 +11,7 @@ public interface MainContract {
      **/
     interface UserInteractor{
         interface onFinishedListener{
-            void onFinished();
+            void onFinished(String token);
             void onFailure(String message);
         }
         void login(String email, String password, onFinishedListener onFinishedListener);

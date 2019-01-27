@@ -1,8 +1,4 @@
-package com.example.examplewebservice.Model;
-
-import android.util.Patterns;
-
-import com.example.examplewebservice.Services.UserService;
+package com.example.examplewebservice.data.database.model;
 
 public class User {
     private int id;

@@ -8,17 +8,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.examplewebservice.Components.ProgressDialog;
-import com.example.examplewebservice.Presenter.MainContract;
-import com.example.examplewebservice.Presenter.LoginPresenter;
-import com.example.examplewebservice.View.HomeActivity;
-import com.example.examplewebservice.View.ILoginView;
+import com.example.examplewebservice.components.ProgressDialog;
+import com.example.examplewebservice.data.preferences.AuthPreferencesImpl;
+import com.example.examplewebservice.presenter.LoginContract;
+import com.example.examplewebservice.presenter.LoginPresenter;
+import com.example.examplewebservice.data.api.UserServiceImpl;
+import com.example.examplewebservice.view.HomeActivity;
+import com.example.examplewebservice.view.LoginView;
 
-public class MainActivity extends AppCompatActivity implements ILoginView {
+public class MainActivity extends AppCompatActivity implements LoginView {
     private Button btnLogin;
     private EditText inputEmail;
     private EditText inputPassword;
-    private MainContract.Presenter loginPresenter;
+    private LoginContract.Presenter loginPresenter;
     private ProgressDialog progressDialog;
 
     @Override
@@ -38,7 +40,8 @@ public class MainActivity extends AppCompatActivity implements ILoginView {
         btnLogin = findViewById(R.id.buttonLogin);
         inputEmail= findViewById(R.id.inputEmail);
         inputPassword= findViewById(R.id.inputPassword);
-        loginPresenter = new LoginPresenter(this);
+        AuthPreferencesImpl preferences = AuthPreferencesImpl.getSharedPreference(this,"MyAppMVP");
+        loginPresenter = new LoginPresenter(this, new UserServiceImpl(), preferences);
         progressDialog = new ProgressDialog(this);
     }
     @Override

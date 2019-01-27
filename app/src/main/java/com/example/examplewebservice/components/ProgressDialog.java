@@ -1,4 +1,4 @@
-package com.example.examplewebservice.Components;
+package com.example.examplewebservice.components;
 
 import android.app.Dialog;
 import android.content.Context;

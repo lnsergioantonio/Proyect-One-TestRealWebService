@@ -1,18 +1,18 @@
-package com.example.examplewebservice.Services;
+package com.example.examplewebservice.data.api;
 
 import android.util.Log;
 import android.util.Patterns;
 
-import com.example.examplewebservice.Model.LoginBody;
-import com.example.examplewebservice.Model.User;
-import com.example.examplewebservice.Presenter.MainContract;
+import com.example.examplewebservice.data.api.model.LoginBody;
+import com.example.examplewebservice.data.database.model.User;
+import com.example.examplewebservice.presenter.LoginContract;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class UserService implements MainContract.UserInteractor {
-    private String LOGTAG = "UserService";
+public class UserServiceImpl implements LoginContract.UserInteractor {
+    private String LOGTAG = "UserServiceImpl";
 
     @Override
     public void login(String email, String password, final onFinishedListener onFinishedListener) {
@@ -23,7 +23,7 @@ public class UserService implements MainContract.UserInteractor {
         else if ( password.length()<6 )
             onFinishedListener.onFailure("Password no valido");
         else{
-            IUserService userService = new Api().getClient().create(IUserService.class);
+            UserService userService = new Api().getClient().create(UserService.class);
             Call<User> login = userService.loginWithEmail(new LoginBody(email,password));
 
             login.enqueue(new Callback<User>() {
@@ -32,7 +32,7 @@ public class UserService implements MainContract.UserInteractor {
                     Log.i(LOGTAG,""+response.code());
                     switch (response.code()){
                         case 200:
-                            onFinishedListener.onFinished();
+                            onFinishedListener.onFinished(response.body().getToken());
                             break;
                         default:
                             onFinishedListener.onFailure(String.valueOf(response.code()));
