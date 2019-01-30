@@ -9,25 +9,27 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.examplewebservice.components.ProgressDialog;
+import com.example.examplewebservice.data.AppDataManager;
+import com.example.examplewebservice.data.DataManager;
 import com.example.examplewebservice.data.preferences.AuthPreferencesImpl;
-import com.example.examplewebservice.presenter.LoginContract;
-import com.example.examplewebservice.presenter.LoginPresenter;
+import com.example.examplewebservice.view.base.SessionContract;
+import com.example.examplewebservice.view.login.LoginPresenter;
 import com.example.examplewebservice.data.api.UserServiceImpl;
-import com.example.examplewebservice.view.HomeActivity;
-import com.example.examplewebservice.view.LoginView;
+import com.example.examplewebservice.view.home.HomeActivity;
+import com.example.examplewebservice.view.login.LoginView;
 
 public class MainActivity extends AppCompatActivity implements LoginView {
     private Button btnLogin;
     private EditText inputEmail;
     private EditText inputPassword;
-    private LoginContract.Presenter loginPresenter;
+    private SessionContract.PresenterLogin loginPresenter;
     private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        bind();
+        init();
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,12 +38,15 @@ public class MainActivity extends AppCompatActivity implements LoginView {
             }
         });
     }
-    public void bind(){
+    public void init(){
         btnLogin = findViewById(R.id.buttonLogin);
         inputEmail= findViewById(R.id.inputEmail);
         inputPassword= findViewById(R.id.inputPassword);
+
         AuthPreferencesImpl preferences = AuthPreferencesImpl.getSharedPreference(this,"MyAppMVP");
-        loginPresenter = new LoginPresenter(this, new UserServiceImpl(), preferences);
+        DataManager dataManager = new AppDataManager(new UserServiceImpl(), preferences);
+
+        loginPresenter = new LoginPresenter(this,dataManager);
         progressDialog = new ProgressDialog(this);
     }
     @Override

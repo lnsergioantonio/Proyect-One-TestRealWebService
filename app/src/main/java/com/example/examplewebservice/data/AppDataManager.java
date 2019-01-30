@@ -1,42 +1,50 @@
 package com.example.examplewebservice.data;
-
-import com.example.examplewebservice.data.api.UserServiceImpl;
-import com.example.examplewebservice.data.api.model.LoginBody;
-import com.example.examplewebservice.data.database.model.User;
-
-import retrofit2.Call;
+import com.example.examplewebservice.data.preferences.AuthPreferences;
+import com.example.examplewebservice.view.base.SessionContract;
 
 public class AppDataManager implements DataManager {
+    public static final String LOGTAG = "DataManager";
+    private SessionContract.UserInteractor userInteractor;
+    private AuthPreferences authPreferences;
 
-    public static final String LOGTAG="DataManager";
-
-    @Override
-    public void LogOut() {
-
+    public AppDataManager(SessionContract.UserInteractor userInteractor, AuthPreferences authPreferences) {
+        this.userInteractor = userInteractor;
+        this.authPreferences = authPreferences;
     }
 
     @Override
-    public Call<User> loginWithEmail(LoginBody loginBody) {
-        return null;
+    public void updateUserInfo(String email, String token) {
+        authPreferences.setCurrentEmail(email);
+        authPreferences.setCurrentToken(token);
     }
 
     @Override
     public void setCurrentEmail(String email) {
-
+        authPreferences.setCurrentEmail(email);
     }
 
     @Override
     public void setCurrentToken(String token) {
-
+        authPreferences.setCurrentToken(token);
     }
 
     @Override
     public String getCurrentEmail() {
-        return null;
+        return authPreferences.getCurrentEmail();
     }
 
     @Override
     public String getCurrentToken() {
-        return null;
+        return authPreferences.getCurrentToken();
+    }
+
+    @Override
+    public void login(String email, String password, onFinishedListener onFinishedListener) {
+        userInteractor.login(email,password,onFinishedListener);
+    }
+
+    @Override
+    public void logout(onFinishedListenerLogout onFinishedListenerLogout) {
+        userInteractor.logout(onFinishedListenerLogout);
     }
 }

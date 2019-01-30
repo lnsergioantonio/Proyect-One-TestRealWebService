@@ -1,17 +1,18 @@
 package com.example.examplewebservice.data.api;
 
+import android.os.Handler;
 import android.util.Log;
 import android.util.Patterns;
 
 import com.example.examplewebservice.data.api.model.LoginBody;
 import com.example.examplewebservice.data.database.model.User;
-import com.example.examplewebservice.presenter.LoginContract;
+import com.example.examplewebservice.view.base.SessionContract;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class UserServiceImpl implements LoginContract.UserInteractor {
+public class UserServiceImpl implements SessionContract.UserInteractor{
     private String LOGTAG = "UserServiceImpl";
 
     @Override
@@ -46,5 +47,19 @@ public class UserServiceImpl implements LoginContract.UserInteractor {
                 }
             });
         }
+    }
+
+
+    @Override
+    public void logout(final onFinishedListenerLogout onFinishedListenerLogout) {
+        //fake api logout
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                onFinishedListenerLogout.onFinished();
+            }
+        },2500);
+
     }
 }

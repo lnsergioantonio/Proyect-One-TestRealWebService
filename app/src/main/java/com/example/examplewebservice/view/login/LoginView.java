@@ -1,4 +1,4 @@
-package com.example.examplewebservice.view;
+package com.example.examplewebservice.view.login;
 
 public interface LoginView {
     void showProgressDialog();
